@@ -118,6 +118,7 @@ http://localhost:4200
 http://localhost:3000/api/docs
 http://localhost:3000/api/users/{countUsers}
 http://localhost:3000/api/products/{countProducts}
+http://localhost:3000/api/books/{countBooks}
 ```
 
 ### Backend SpringBoot
