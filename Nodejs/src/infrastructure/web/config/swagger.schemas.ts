@@ -71,4 +71,53 @@
  *           type: number
  *           example: 4500
  */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Report:
+ *       type: object
+ *       description: Representa un reporte generado por el sistema
+ *       required:
+ *         - id
+ *         - title
+ *         - description
+ *         - type
+ *         - status
+ *         - generatedAt
+ *         - totalRecords
+ *       properties:
+ *         id:
+ *           type: number
+ *           example: 1
+ *         title:
+ *           type: string
+ *           example: Resumen de usuarios
+ *         description:
+ *           type: string
+ *           example: Reporte con el resumen de usuarios registrados
+ *         type:
+ *           type: string
+ *           enum:
+ *             - Usuarios
+ *             - Productos
+ *             - Actividad
+ *             - Inventario
+ *           example: Usuarios
+ *         status:
+ *           type: string
+ *           enum:
+ *             - Generado
+ *             - Pendiente
+ *             - Error
+ *           example: Generado
+ *         generatedAt:
+ *           type: string
+ *           format: date-time
+ *           example: 2026-01-15T10:30:00.000Z
+ *         totalRecords:
+ *           type: number
+ *           example: 42
+ */
 export {};
