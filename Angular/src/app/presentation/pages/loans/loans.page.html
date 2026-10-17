@@ -1,0 +1,15 @@
+@switch(state){
+
+    @case('loading'){
+        <app-alert alertState="loading" text="Cargando Préstamos..." ></app-alert>
+    }
+
+    @case('error'){
+        <app-alert alertState="error" text="Error al Cargar los Préstamos" ></app-alert>
+    }
+
+    @case('success'){
+        <app-loans-table [loans]="loans" ></app-loans-table>
+    }
+
+}

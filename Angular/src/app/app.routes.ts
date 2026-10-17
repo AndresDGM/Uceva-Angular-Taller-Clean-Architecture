@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { UsersPage } from './presentation/pages/users/users.page';
 import { ProductsPage } from './presentation/pages/products/products.page';
 import { BooksPage } from './presentation/pages/books/books.page';
+import { LoansPage } from './presentation/pages/loans/loans.page';
 
 /**
  * Definición de las rutas principales de la aplicación.
@@ -38,6 +39,15 @@ export const routes: Routes = [
    */
   { path: 'products', component: ProductsPage },
   { path: 'books', component: BooksPage },
+
+  /**
+   * Ruta de préstamos.
+   *
+   * @remarks
+   * Renderiza el componente `LoansPage`, encargado
+   * de mostrar y gestionar el listado de préstamos.
+   */
+  { path: 'loans', component: LoansPage },
 
   /**
    * Ruta comodín.
