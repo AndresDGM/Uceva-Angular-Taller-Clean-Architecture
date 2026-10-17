@@ -54,4 +54,20 @@ describe('LoansTableComponent', () => {
     });
   });
 
+  it('debería mapear ACTIVE a badge de éxito', () => {
+    expect(component.getBadgeClass('ACTIVE')).toBe('bg-success text-white');
+  });
+
+  it('debería mapear RETURNED a badge de primario', () => {
+    expect(component.getBadgeClass('RETURNED')).toBe('bg-primary text-white');
+  });
+
+  it('debería mapear OVERDUE a badge de peligro', () => {
+    expect(component.getBadgeClass('OVERDUE')).toBe('bg-danger text-white');
+  });
+
+  it('debería devolver badge secundario para estado desconocido', () => {
+    expect(component.getBadgeClass('UNKNOWN' as any)).toBe('bg-secondary text-white');
+  });
+
 });
