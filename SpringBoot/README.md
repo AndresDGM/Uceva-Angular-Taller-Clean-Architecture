@@ -7,6 +7,9 @@ src/main/java/uceva/cleanarchitecture
 │   ├── entity/
 │   │   ├── User.java
 │   │   └── Product.java
+│   │   ├── Book.java
+│   │   ├── Genre.java
+│   │   └── Language.java
 │   │
 │   └── repository/
 │       ├── UserRepository.java
@@ -15,23 +18,28 @@ src/main/java/uceva/cleanarchitecture
 ├── application
 │   └── usecase/
 │       ├── GetAllUsersUseCase.java
-│       └── GetAllProductsUseCase.java
+│       ├── GetAllProductsUseCase.java
+│       └── GetAllBooksUseCase.java
 │
 ├── infrastructure
 │   ├── controller/
 │   │   ├── UserController.java
-│   │   └── ProductController.java
+│   │   ├── ProductController.java
+│   │   └── BookController.java
 │   │
 │   ├── repository/
 │   │   ├── UserRepositoryImpl.java
-│   │   └── ProductRepositoryImpl.java
+│   │   ├── ProductRepositoryImpl.java
+│   │   └── BookRepositoryImpl.java
 │   │
 │   └── datasource/
 │       ├── UserDatasource.java
-│       └── ProductDatasource.java
+│       ├── ProductDatasource.java
+│       └── BookDatasource.java
 │
 ├── config
-│   └── AppConfig.java
+│   ├── AppConfig.java
+│   └── SwaggerConfig.java
 │
 └── UcevaSprinBootTallerCleanArchitectureApplication.java
 ```
@@ -89,7 +97,26 @@ src/main/java/uceva/cleanarchitecture/config/
 
 ## Urls Consumo
 ```
-http://localhost:3000/api/swagger-ui/index.html
+http://localhost:8080/api/swagger-ui/index.html
 http://localhost:8080/api/users/{countUsers}
 http://localhost:8080/api/products/{countProducts}
+http://localhost:8080/api/books/{countBooks}
+```
+
+El endpoint `books` devuelve los atributos `id`, `title`, `authorId`, `isbn`,
+`publicationYear`, `publisher`, `pages`, `description`, `language`, `genre`,
+`coverImageUrl` y `pdfUrl`, manteniendo el contrato consumido por Angular y Node.js.
+
+## Ejecución
+
+Requiere Java 25. Desde este directorio:
+
+```bash
+JAVA_HOME=/usr/lib/jvm/java-25-openjdk bash gradlew bootRun
+```
+
+Para ejecutar las pruebas:
+
+```bash
+JAVA_HOME=/usr/lib/jvm/java-25-openjdk bash gradlew test
 ```
