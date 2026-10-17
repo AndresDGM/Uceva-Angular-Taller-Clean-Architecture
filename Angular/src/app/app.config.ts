@@ -1,5 +1,7 @@
+import { registerLocaleData } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import localeEsCo from '@angular/common/locales/es-CO';
+import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ProductRepository } from './core/domain/repositories/product.repository';
@@ -16,6 +18,8 @@ import { ReportSpringBootRepositoryImpl } from './core/infrastructure/repositori
 import { ReportRepository } from './core/domain/repositories/report.repository';
 import { selectBackendRepository } from './core/infrastructure/providers/backend.provider';
 import { environment } from '../environments/environment';
+
+registerLocaleData(localeEsCo);
 
 /**
  * Configuración principal de la aplicación Angular.
@@ -43,6 +47,8 @@ export const appConfig: ApplicationConfig = {
    * que estarán disponibles en toda la aplicación.
    */
   providers: [
+
+    { provide: LOCALE_ID, useValue: 'es-CO' },
 
     UserLocalRepositoryImpl,
     UserNodeRepositoryImpl,

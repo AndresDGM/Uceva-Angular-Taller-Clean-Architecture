@@ -10,8 +10,8 @@ import { USERS_MOCK } from '../../../mocks/users.mocks';
 import { PRODUCTS_MOCK } from '../../../mocks/products.mocks';
 import { REPORTS_MOCK } from '../../../mocks/reports.mocks';
 
-jest.mock('@faker-js/faker', () => ({
-  faker: {
+jest.mock('@faker-js/faker', () => {
+  const fakerMock = {
     commerce: {
       productName: jest.fn(() => 'Producto Test'),
       price: jest.fn(() => '10.00'),
@@ -35,8 +35,10 @@ jest.mock('@faker-js/faker', () => ({
     helpers: {
       arrayElement: jest.fn((arr) => arr[0]),
     },
-  },
-}));
+  };
+
+  return { faker: fakerMock, fakerES: fakerMock };
+});
 
 describe('DataService', () => {
   let service: DataService;

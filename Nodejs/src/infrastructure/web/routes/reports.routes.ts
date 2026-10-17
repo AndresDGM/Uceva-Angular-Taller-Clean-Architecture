@@ -21,7 +21,7 @@ export class ReportsRoutes {
      *     summary: Obtener listado de reportes
      *     description: Retorna reportes generados dinámicamente según la cantidad solicitada.
      *     tags:
-     *       - Reports
+     *       - Reportes
      *     parameters:
      *       - in: path
      *         name: countReports

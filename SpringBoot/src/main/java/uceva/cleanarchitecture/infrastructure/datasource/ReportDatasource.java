@@ -1,19 +1,29 @@
 package uceva.cleanarchitecture.infrastructure.datasource;
 
-import com.github.javafaker.Faker;
 import uceva.cleanarchitecture.domain.entity.Report;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Fuente de datos temporal para generar reportes de ejemplo.
  */
 public class ReportDatasource {
-    private final Faker faker = new Faker();
     private final Random random = new Random();
+
+    private final String[][] reportTemplates = {
+            {"Resumen de usuarios", "Usuarios registrados en el sistema"},
+            {"Inventario actual", "Existencias disponibles por producto"},
+            {"Actividad reciente", "Actividades realizadas por los usuarios"},
+            {"Productos por categoría", "Cantidad de productos agrupados por categoría"},
+            {"Reporte de ventas", "Ventas registradas durante el periodo seleccionado"},
+            {"Estado del inventario", "Productos disponibles y agotados"},
+            {"Nuevos usuarios", "Usuarios creados recientemente"},
+            {"Movimientos del sistema", "Operaciones registradas en la plataforma"},
+            {"Resumen de productos", "Catálogo de productos disponible"},
+            {"Reporte general", "Consolidado general de información del sistema"}
+    };
 
     private final String[] reportTypes = {
             "Usuarios",
@@ -39,14 +49,16 @@ public class ReportDatasource {
     }
 
     private Report generateReport(Integer id) {
+        String[] template = reportTemplates[(id - 1) % reportTemplates.length];
+
         return new Report(
                 id,
-                faker.lorem().sentence(5),
-                faker.lorem().sentence(10),
+                template[0],
+                template[1],
                 randomValue(reportTypes),
                 randomValue(reportStatuses),
-                faker.date().past(30, TimeUnit.DAYS).toInstant().toString(),
-                faker.number().numberBetween(1, 500)
+                java.time.Instant.now().minusSeconds(random.nextInt(30 * 24 * 60 * 60)).toString(),
+                random.nextInt(500) + 1
         );
     }
 

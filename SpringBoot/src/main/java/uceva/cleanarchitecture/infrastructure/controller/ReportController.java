@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/reports")
-@Tag(name = "Reports", description = "Operaciones de reportes")
+@Tag(name = "Reportes", description = "Operaciones de reportes")
 public class ReportController {
 
     private final GetAllReportsUseCase getAllReportsUseCase;

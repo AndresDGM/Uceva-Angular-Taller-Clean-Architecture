@@ -37,7 +37,7 @@ export class App {
    * @example
    * ```ts
    * {
-   *   title: 'Angular Client',
+   *   title: 'Cliente Angular',
    *   iconConfig: {
    *     icon: 'bootstrap',
    *     size: 2
@@ -50,7 +50,7 @@ export class App {
    * ```
    */
   navbarConfig: NavbarConfig = {
-    title: 'Angular Client',
+    title: 'Cliente Angular',
     iconConfig: {
       icon: 'bootstrap',
       size: 2

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { faker } from '@faker-js/faker';
+import { fakerES as faker } from '@faker-js/faker';
 import { Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { Product, ProductCategory } from "../../domain/models/product.model";
@@ -129,12 +129,55 @@ export class DataService {
             'Pendiente',
             'Error',
         ];
+        const reportTemplates = [
+            {
+                title: 'Resumen de usuarios',
+                description: 'Usuarios registrados en el sistema',
+            },
+            {
+                title: 'Inventario actual',
+                description: 'Existencias disponibles por producto',
+            },
+            {
+                title: 'Actividad reciente',
+                description: 'Actividades realizadas por los usuarios',
+            },
+            {
+                title: 'Productos por categoría',
+                description: 'Cantidad de productos agrupados por categoría',
+            },
+            {
+                title: 'Reporte de ventas',
+                description: 'Ventas registradas durante el periodo seleccionado',
+            },
+            {
+                title: 'Estado del inventario',
+                description: 'Productos disponibles y agotados',
+            },
+            {
+                title: 'Nuevos usuarios',
+                description: 'Usuarios creados recientemente',
+            },
+            {
+                title: 'Movimientos del sistema',
+                description: 'Operaciones registradas en la plataforma',
+            },
+            {
+                title: 'Resumen de productos',
+                description: 'Catálogo de productos disponible',
+            },
+            {
+                title: 'Reporte general',
+                description: 'Consolidado general de información del sistema',
+            },
+        ];
 
         for (let i = 1; i <= countReports; i++) {
+            const template = reportTemplates[(i - 1) % reportTemplates.length];
             reports.push({
                 id: i,
-                title: faker.lorem.sentence({ min: 2, max: 5 }),
-                description: faker.lorem.sentence({ min: 6, max: 12 }),
+                title: template.title,
+                description: template.description,
                 type: faker.helpers.arrayElement(reportTypes),
                 status: faker.helpers.arrayElement(reportStatuses),
                 generatedAt: faker.date.recent({ days: 30 }).toISOString(),

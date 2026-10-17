@@ -27,7 +27,7 @@ describe('App', () => {
 
   it('debería definir la configuración del navbar correctamente', () => {
     expect(component.navbarConfig).toEqual({
-      title: 'Angular Client',
+      title: 'Cliente Angular',
       iconConfig: {
         icon: 'bootstrap',
         size: 2
