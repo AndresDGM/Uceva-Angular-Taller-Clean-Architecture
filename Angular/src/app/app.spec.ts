@@ -32,13 +32,12 @@ describe('App', () => {
         icon: 'bootstrap',
         size: 2
       },
-      navLinks: [
+                navLinks: [
         { text: 'Usuarios', url: '/users' },
         { text: 'Productos', url: '/products' },
+        { text: 'Reportes', url: '/reports' }, // Ojo, aquí va primero
         { text: 'Libros', url: '/books' },
         { text: 'Préstamos', url: '/loans' }
-        { text: 'Reportes', url: '/reports' },
-        { text: 'Libros', url: '/books' }
       ]
     });
   });
