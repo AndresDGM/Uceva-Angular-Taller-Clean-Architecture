@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { environment } from '../../../../environments/environment';
 import { Product } from '../../domain/models/product.model';
 import { User } from '../../domain/models/user.model';
+import { Book } from '../../domain/models/book.model';
 import { DataService } from './data.service';
 import { USERS_MOCK } from '../../../mocks/users.mocks';
 import { PRODUCTS_MOCK } from '../../../mocks/products.mocks';
@@ -14,6 +15,7 @@ jest.mock('@faker-js/faker', () => ({
     commerce: {
       productName: jest.fn(() => 'Producto Test'),
       price: jest.fn(() => '10.00'),
+      isbn: jest.fn(() => '978-3-16-148410-0'),
     },
     person: {
       firstName: jest.fn(() => 'Juan'),
@@ -27,6 +29,17 @@ jest.mock('@faker-js/faker', () => ({
     },
     helpers: {
       arrayElement: jest.fn((arr) => arr[0]),
+      enumValue: jest.fn((enumObject) => Object.values(enumObject)[0]),
+    },
+    lorem: {
+      words: jest.fn(() => 'Libro de prueba'),
+      sentence: jest.fn(() => 'Descripción del libro de prueba.'),
+    },
+    date: {
+      between: jest.fn(() => new Date('2020-01-01T00:00:00.000Z')),
+    },
+    company: {
+      name: jest.fn(() => 'Editorial de prueba'),
     },
   },
 }));
@@ -74,6 +87,13 @@ describe('DataService', () => {
     });
   });
 
+  it('debe devolver el listado de libros local', (done) => {
+    service.getAllBooksLocal(countProducts).subscribe((books: Book[]) => {
+      expect(books.length).toEqual(countProducts);
+      done();
+    });
+  });
+
   it('debe obtener usuarios desde Node por HTTP', () => {
     service.getAllUsersNode(countUsers).subscribe((users) => {
       expect(users).toEqual(USERS_MOCK);
@@ -90,6 +110,15 @@ describe('DataService', () => {
     const req = httpMock.expectOne(`${pathUrlNode}/products/${countProducts}`);
     expect(req.request.method).toBe('GET');
     req.flush(PRODUCTS_MOCK);
+  });
+
+  it('debe obtener libros desde Node por HTTP', () => {
+    service.getAllBooksNode(countProducts).subscribe((books) => {
+      expect(books).toEqual(BOOKS_MOCK);
+    });
+    const req = httpMock.expectOne(`${pathUrlNode}/books/${countProducts}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(BOOKS_MOCK);
   });
 
   it('debe obtener usuarios desde SpringBoot por HTTP', () => {
