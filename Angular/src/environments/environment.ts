@@ -22,7 +22,7 @@ export const environment: {
   baseUrlSpringBoot: string;
 } = {
   /** Implementación activa: local, node o springboot. */
-  backend: 'local',
+  backend: 'springboot',
   /**
    * URL base del backend en NodeJS de la aplicación.
    *
