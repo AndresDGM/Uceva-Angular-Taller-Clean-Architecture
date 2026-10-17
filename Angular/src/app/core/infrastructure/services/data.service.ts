@@ -227,4 +227,8 @@ export class DataService {
         return this.httpClient.get<Product[]>(`${this.springBootUrl}/products/${countProducts}`);
     }
 
+    getAllBooksSpringBoot(countBooks: number): Observable<Book[]> {
+        return this.httpClient.get<Book[]>(`${this.springBootUrl}/books/${countBooks}`);
+    }
+
 }
