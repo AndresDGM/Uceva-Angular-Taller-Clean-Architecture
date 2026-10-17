@@ -107,3 +107,44 @@ export {};
  *         coverImageUrl: { type: string, format: uri, example: 'https://picsum.photos/seed/book-1/160/240' }
  *         pdfUrl: { type: string, format: uri, example: 'https://samplepdf.org/files/sample.pdf' }
  */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Loan:
+ *       type: object
+ *       description: Representa un préstamo del sistema
+ *       required:
+ *         - id
+ *         - bookId
+ *         - userId
+ *         - loanDate
+ *         - returnDate
+ *         - status
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 1
+ *         bookId:
+ *           type: integer
+ *           example: 1
+ *         userId:
+ *           type: integer
+ *           example: 1
+ *         loanDate:
+ *           type: string
+ *           format: date
+ *           example: '2025-01-01'
+ *         returnDate:
+ *           type: string
+ *           format: date
+ *           example: '2025-01-15'
+ *         status:
+ *           type: string
+ *           enum:
+ *             - ACTIVE
+ *             - RETURNED
+ *             - OVERDUE
+ *           example: ACTIVE
+ */

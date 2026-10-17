@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UsersRoutes } from "./users.routes";
 import { ProductsRoutes } from "./products.routes";
 import { BooksRoutes } from "./books.routes";
+import { LoansRoutes } from "./loans.routes";
 
 /**
  * Clase encargada de centralizar todas las rutas de la aplicación.
@@ -33,6 +34,7 @@ export class AppRoutes {
     router.use("/api/users", UsersRoutes.routes);
     router.use("/api/products", ProductsRoutes.routes);
     router.use("/api/books", BooksRoutes.routes);
+    router.use("/api/loans", LoansRoutes.routes);
 
     return router;
   }
