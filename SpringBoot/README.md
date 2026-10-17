@@ -117,4 +117,5 @@ http://localhost:3000/api/swagger-ui/index.html
 http://localhost:8080/api/users/{countUsers}
 http://localhost:8080/api/products/{countProducts}
 http://localhost:8080/api/reports/{countReports}
+http://localhost:8080/api/books/{countBooks}
 ```

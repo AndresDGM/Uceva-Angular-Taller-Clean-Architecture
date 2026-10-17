@@ -120,4 +120,39 @@
  *           type: number
  *           example: 42
  */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Book:
+ *       type: object
+ *       description: Representa un libro del catálogo
+ *       required:
+ *         - id
+ *         - title
+ *         - authorId
+ *         - isbn
+ *         - publicationYear
+ *         - publisher
+ *         - pages
+ *         - description
+ *         - language
+ *         - genre
+ *         - coverImageUrl
+ *         - pdfUrl
+ *       properties:
+ *         id: { type: integer, example: 1 }
+ *         title: { type: string, example: Cien años de soledad }
+ *         authorId: { type: integer, example: 1 }
+ *         isbn: { type: string, example: 978-3-16-148410-0 }
+ *         publicationYear: { type: string, format: date-time, example: '1967-05-30T00:00:00.000Z' }
+ *         publisher: { type: string, example: Editorial Sudamericana }
+ *         pages: { type: integer, example: 400 }
+ *         description: { type: string, example: Una obra maestra de la literatura hispanoamericana }
+ *         language: { type: string, example: Español }
+ *         genre: { type: string, example: Ficción }
+ *         coverImageUrl: { type: string, format: uri, example: 'https://picsum.photos/seed/book-1/160/240' }
+ *         pdfUrl: { type: string, format: uri, example: 'https://samplepdf.org/files/sample.pdf' }
+ */
 export {};

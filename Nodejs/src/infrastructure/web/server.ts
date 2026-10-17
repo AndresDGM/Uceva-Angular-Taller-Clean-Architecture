@@ -26,7 +26,7 @@ import { swaggerSpec } from "./config/swagger";
  */
 export class Server {
   /** Instancia de Express */
-  public readonly app = express();
+  public readonly app: express.Express = express();
 
   private readonly port: number;
   private readonly publicPath: string;

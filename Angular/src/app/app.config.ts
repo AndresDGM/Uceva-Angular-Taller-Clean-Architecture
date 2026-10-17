@@ -12,6 +12,10 @@ import { UserSpringBootRepositoryImpl } from './core/infrastructure/repositories
 import { ProductSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/product-springboot.repository.impl';
 import { UserLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/user-local.repository.impl';
 import { ProductLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/product-local.repository.impl';
+import { BookRepository } from './core/domain/repositories/book.repository';
+import { BookLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/book-local.repository.impl';
+import { BookNodeRepositoryImpl } from './core/infrastructure/repositories/node-implementation/book-node.repository.impl';
+import { BookSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/book-springboot.repository.impl';
 import { ReportLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/report-local.repository.impl';
 import { ReportNodeRepositoryImpl } from './core/infrastructure/repositories/node-implementation/report-node.repository.impl';
 import { ReportSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/report-springboot.repository.impl';
@@ -59,6 +63,9 @@ export const appConfig: ApplicationConfig = {
     ReportLocalRepositoryImpl,
     ReportNodeRepositoryImpl,
     ReportSpringBootRepositoryImpl,
+    BookLocalRepositoryImpl,
+    BookNodeRepositoryImpl,
+    BookSpringBootRepositoryImpl,
 
     // La implementación se selecciona desde environment.backend.
     {
@@ -102,6 +109,20 @@ export const appConfig: ApplicationConfig = {
         springBootRepository,
       ),
       deps: [ReportLocalRepositoryImpl, ReportNodeRepositoryImpl, ReportSpringBootRepositoryImpl],
+    },
+    {
+      provide: BookRepository,
+      useFactory: (
+        localRepository: BookRepository,
+        nodeRepository: BookRepository,
+        springBootRepository: BookRepository,
+      ) => selectBackendRepository(
+        environment.backend,
+        localRepository,
+        nodeRepository,
+        springBootRepository,
+      ),
+      deps: [BookLocalRepositoryImpl, BookNodeRepositoryImpl, BookSpringBootRepositoryImpl],
     },
 
     /**
