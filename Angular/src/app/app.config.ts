@@ -49,7 +49,6 @@ import { ReportNodeRepositoryImpl } from './core/infrastructure/repositories/nod
 import { ReportSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/report-springboot.repository.impl';
 import { ReportRepository } from './core/domain/repositories/report.repository';
 import { selectBackendRepository } from './core/infrastructure/providers/backend.provider';
-import { environment } from '../environments/environment';
 
 registerLocaleData(localeEsCo);
 
