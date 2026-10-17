@@ -7,6 +7,7 @@ import { User } from '../../domain/models/user.model';
 import { DataService } from './data.service';
 import { USERS_MOCK } from '../../../mocks/users.mocks';
 import { PRODUCTS_MOCK } from '../../../mocks/products.mocks';
+import { BOOKS_MOCK } from '../../../mocks/books.mocks';
 
 jest.mock('@faker-js/faker', () => ({
   faker: {
@@ -107,6 +108,15 @@ describe('DataService', () => {
     const req = httpMock.expectOne(`${pathUrlSpringBoot}/products/${countProducts}`);
     expect(req.request.method).toBe('GET');
     req.flush(PRODUCTS_MOCK);
+  });
+
+  it('debe obtener libros desde SpringBoot por HTTP', () => {
+    service.getAllBooksSpringBoot(countProducts).subscribe((books) => {
+      expect(books).toEqual(BOOKS_MOCK);
+    });
+    const req = httpMock.expectOne(`${pathUrlSpringBoot}/books/${countProducts}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(BOOKS_MOCK);
   });
 
 });
