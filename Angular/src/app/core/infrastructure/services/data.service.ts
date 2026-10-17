@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker';
 import { Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { Product, ProductCategory } from "../../domain/models/product.model";
+import { Report, ReportStatus, ReportType } from "../../domain/models/report.model";
 import { User, UserEngineering } from "../../domain/models/user.model";
 
 /**
@@ -110,6 +111,41 @@ export class DataService {
     }
 
     /**
+     * Obtiene el listado de reportes desde datos locales simulados.
+     *
+     * @param countReports - Cantidad de reportes a solicitar
+     * @returns Observable que emite un arreglo de {@link Report}
+     */
+    getAllReportsLocal(countReports: number): Observable<Report[]> {
+        const reports: Report[] = [];
+        const reportTypes: ReportType[] = [
+            'Usuarios',
+            'Productos',
+            'Actividad',
+            'Inventario',
+        ];
+        const reportStatuses: ReportStatus[] = [
+            'Generado',
+            'Pendiente',
+            'Error',
+        ];
+
+        for (let i = 1; i <= countReports; i++) {
+            reports.push({
+                id: i,
+                title: faker.lorem.sentence({ min: 2, max: 5 }),
+                description: faker.lorem.sentence({ min: 6, max: 12 }),
+                type: faker.helpers.arrayElement(reportTypes),
+                status: faker.helpers.arrayElement(reportStatuses),
+                generatedAt: faker.date.recent({ days: 30 }).toISOString(),
+                totalRecords: faker.number.int({ min: 1, max: 500 }),
+            });
+        }
+
+        return of(reports);
+    }
+
+    /**
      * Obtiene el listado de usuarios desde el backend Node.js.
      *
      * @remarks
@@ -152,6 +188,11 @@ export class DataService {
      */
     getAllProductsNode(countProducts: number): Observable<Product[]> {
         return this.httpClient.get<Product[]>(`${this.nodeUrl}/products/${countProducts}`);
+    }
+
+    /** Obtiene reportes desde el backend Node.js. */
+    getAllReportsNode(countReports: number): Observable<Report[]> {
+        return this.httpClient.get<Report[]>(`${this.nodeUrl}/reports/${countReports}`);
     }
 
     /**
@@ -197,6 +238,11 @@ export class DataService {
      */
     getAllProductsSpringBoot(countProducts: number): Observable<Product[]> {
         return this.httpClient.get<Product[]>(`${this.springBootUrl}/products/${countProducts}`);
+    }
+
+    /** Obtiene reportes desde el backend Spring Boot. */
+    getAllReportsSpringBoot(countReports: number): Observable<Report[]> {
+        return this.httpClient.get<Report[]>(`${this.springBootUrl}/reports/${countReports}`);
     }
 
 }

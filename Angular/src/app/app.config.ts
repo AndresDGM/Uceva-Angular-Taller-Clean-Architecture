@@ -10,6 +10,11 @@ import { UserSpringBootRepositoryImpl } from './core/infrastructure/repositories
 import { ProductSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/product-springboot.repository.impl';
 import { UserLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/user-local.repository.impl';
 import { ProductLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/product-local.repository.impl';
+import { ReportLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/report-local.repository.impl';
+import { ReportNodeRepositoryImpl } from './core/infrastructure/repositories/node-implementation/report-node.repository.impl';
+import { ReportSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/report-springboot.repository.impl';
+import { ReportRepository } from './core/domain/repositories/report.repository';
+import { selectBackendRepository } from './core/infrastructure/providers/backend.provider';
 
 /**
  * Configuración principal de la aplicación Angular.
@@ -38,17 +43,59 @@ export const appConfig: ApplicationConfig = {
    */
   providers: [
 
-    //Local Providers
-    { provide: UserRepository, useClass: UserLocalRepositoryImpl },
-    { provide: ProductRepository, useClass: ProductLocalRepositoryImpl },
-    
-    //Node Providers
-    //{ provide: UserRepository, useClass: UserNodeRepositoryImpl },
-    //{ provide: ProductRepository, useClass: ProductNodeRepositoryImpl },
+    UserLocalRepositoryImpl,
+    UserNodeRepositoryImpl,
+    UserSpringBootRepositoryImpl,
+    ProductLocalRepositoryImpl,
+    ProductNodeRepositoryImpl,
+    ProductSpringBootRepositoryImpl,
+    ReportLocalRepositoryImpl,
+    ReportNodeRepositoryImpl,
+    ReportSpringBootRepositoryImpl,
 
-    //SpringBoot Providers
-    //{ provide: UserRepository, useClass: UserSpringBootRepositoryImpl },
-    //{ provide: ProductRepository, useClass: ProductSpringBootRepositoryImpl },
+    // La implementación se selecciona desde environment.backend.
+    {
+      provide: UserRepository,
+      useFactory: (
+        localRepository: UserRepository,
+        nodeRepository: UserRepository,
+        springBootRepository: UserRepository,
+      ) => selectBackendRepository(
+        environment.backend,
+        localRepository,
+        nodeRepository,
+        springBootRepository,
+      ),
+      deps: [UserLocalRepositoryImpl, UserNodeRepositoryImpl, UserSpringBootRepositoryImpl],
+    },
+    {
+      provide: ProductRepository,
+      useFactory: (
+        localRepository: ProductRepository,
+        nodeRepository: ProductRepository,
+        springBootRepository: ProductRepository,
+      ) => selectBackendRepository(
+        environment.backend,
+        localRepository,
+        nodeRepository,
+        springBootRepository,
+      ),
+      deps: [ProductLocalRepositoryImpl, ProductNodeRepositoryImpl, ProductSpringBootRepositoryImpl],
+    },
+    {
+      provide: ReportRepository,
+      useFactory: (
+        localRepository: ReportRepository,
+        nodeRepository: ReportRepository,
+        springBootRepository: ReportRepository,
+      ) => selectBackendRepository(
+        environment.backend,
+        localRepository,
+        nodeRepository,
+        springBootRepository,
+      ),
+      deps: [ReportLocalRepositoryImpl, ReportNodeRepositoryImpl, ReportSpringBootRepositoryImpl],
+    },
 
     /**
      * Proveedor de listeners globales de errores del navegador.
