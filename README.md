@@ -123,7 +123,18 @@ http://localhost:3000/api/books/{countBooks}
 
 ### Backend SpringBoot
 ```
-http://localhost:3000/api/swagger-ui/index.html
-http://localhost:3000/api/users/{countUsers}
-http://localhost:3000/api/products/{countProducts}
+http://localhost:8080/api/swagger-ui/index.html
+http://localhost:8080/api/users/{countUsers}
+http://localhost:8080/api/products/{countProducts}
+http://localhost:8080/api/books/{countBooks}
 ```
+
+### Selección del backend Angular
+
+La implementación activa se selecciona en `Angular/src/environments/environment.ts`:
+
+```ts
+backend: 'springboot' // también permite 'node' o 'local'
+```
+
+Los componentes y casos de uso no cambian al seleccionar otra implementación.
