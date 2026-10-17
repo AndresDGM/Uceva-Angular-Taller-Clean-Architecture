@@ -1,0 +1,36 @@
+<table class="table table-striped border">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Título</th>
+      <th scope="col">Descripción</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Generado</th>
+      <th scope="col">Registros</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (report of reports; track report.id) {
+      <tr>
+        <th scope="row">{{ report.id }}</th>
+        <td>{{ report.title }}</td>
+        <td>{{ report.description }}</td>
+        <td>
+          <dsb-badge-atom
+            [text]="report.type"
+            [type]="typeMap[report.type]">
+          </dsb-badge-atom>
+        </td>
+        <td>
+          <dsb-badge-atom
+            [text]="report.status"
+            [type]="statusMap[report.status]">
+          </dsb-badge-atom>
+        </td>
+        <td>{{ report.generatedAt | date: 'short' }}</td>
+        <td>{{ report.totalRecords }}</td>
+      </tr>
+    }
+  </tbody>
+</table>

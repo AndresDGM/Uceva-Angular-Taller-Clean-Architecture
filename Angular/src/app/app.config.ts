@@ -1,5 +1,7 @@
+import { registerLocaleData } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import localeEsCo from '@angular/common/locales/es-CO';
+import { ApplicationConfig, LOCALE_ID, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ProductRepository } from './core/domain/repositories/product.repository';
@@ -42,6 +44,14 @@ const repositoryImplementations = {
 } as const;
 
 const selectedRepositories = repositoryImplementations[environment.backend];
+import { ReportLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/report-local.repository.impl';
+import { ReportNodeRepositoryImpl } from './core/infrastructure/repositories/node-implementation/report-node.repository.impl';
+import { ReportSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/report-springboot.repository.impl';
+import { ReportRepository } from './core/domain/repositories/report.repository';
+import { selectBackendRepository } from './core/infrastructure/providers/backend.provider';
+import { environment } from '../environments/environment';
+
+registerLocaleData(localeEsCo);
 
 /**
  * Configuración principal de la aplicación Angular.
@@ -74,6 +84,78 @@ export const appConfig: ApplicationConfig = {
     { provide: ProductRepository, useClass: selectedRepositories.product },
     { provide: BookRepository, useClass: selectedRepositories.book },
     { provide: LoanRepository, useClass: selectedRepositories.loan },
+    { provide: LOCALE_ID, useValue: 'es-CO' },
+
+    UserLocalRepositoryImpl,
+    UserNodeRepositoryImpl,
+    UserSpringBootRepositoryImpl,
+    ProductLocalRepositoryImpl,
+    ProductNodeRepositoryImpl,
+    ProductSpringBootRepositoryImpl,
+    ReportLocalRepositoryImpl,
+    ReportNodeRepositoryImpl,
+    ReportSpringBootRepositoryImpl,
+    BookLocalRepositoryImpl,
+    BookNodeRepositoryImpl,
+    BookSpringBootRepositoryImpl,
+
+    // La implementación se selecciona desde environment.backend.
+    {
+      provide: UserRepository,
+      useFactory: (
+        localRepository: UserRepository,
+        nodeRepository: UserRepository,
+        springBootRepository: UserRepository,
+      ) => selectBackendRepository(
+        environment.backend,
+        localRepository,
+        nodeRepository,
+        springBootRepository,
+      ),
+      deps: [UserLocalRepositoryImpl, UserNodeRepositoryImpl, UserSpringBootRepositoryImpl],
+    },
+    {
+      provide: ProductRepository,
+      useFactory: (
+        localRepository: ProductRepository,
+        nodeRepository: ProductRepository,
+        springBootRepository: ProductRepository,
+      ) => selectBackendRepository(
+        environment.backend,
+        localRepository,
+        nodeRepository,
+        springBootRepository,
+      ),
+      deps: [ProductLocalRepositoryImpl, ProductNodeRepositoryImpl, ProductSpringBootRepositoryImpl],
+    },
+    {
+      provide: ReportRepository,
+      useFactory: (
+        localRepository: ReportRepository,
+        nodeRepository: ReportRepository,
+        springBootRepository: ReportRepository,
+      ) => selectBackendRepository(
+        environment.backend,
+        localRepository,
+        nodeRepository,
+        springBootRepository,
+      ),
+      deps: [ReportLocalRepositoryImpl, ReportNodeRepositoryImpl, ReportSpringBootRepositoryImpl],
+    },
+    {
+      provide: BookRepository,
+      useFactory: (
+        localRepository: BookRepository,
+        nodeRepository: BookRepository,
+        springBootRepository: BookRepository,
+      ) => selectBackendRepository(
+        environment.backend,
+        localRepository,
+        nodeRepository,
+        springBootRepository,
+      ),
+      deps: [BookLocalRepositoryImpl, BookNodeRepositoryImpl, BookSpringBootRepositoryImpl],
+    },
 
     /**
      * Proveedor de listeners globales de errores del navegador.

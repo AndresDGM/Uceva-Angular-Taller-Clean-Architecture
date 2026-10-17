@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UsersRoutes } from "./users.routes";
 import { ProductsRoutes } from "./products.routes";
+import { ReportsRoutes } from "./reports.routes";
 import { BooksRoutes } from "./books.routes";
 import { LoansRoutes } from "./loans.routes";
 
@@ -33,6 +34,7 @@ export class AppRoutes {
     // Definir rutas
     router.use("/api/users", UsersRoutes.routes);
     router.use("/api/products", ProductsRoutes.routes);
+    router.use("/api/reports", ReportsRoutes.routes);
     router.use("/api/books", BooksRoutes.routes);
     router.use("/api/loans", LoansRoutes.routes);
 

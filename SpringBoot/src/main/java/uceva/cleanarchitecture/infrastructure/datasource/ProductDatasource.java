@@ -6,12 +6,13 @@ import uceva.cleanarchitecture.domain.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 
 public class ProductDatasource {
 
-    private Faker faker = new Faker();
+    private Faker faker = new Faker(new Locale("es"));
     private final Random random = new Random();
     private final String[] categories = {
             "Lacteos",

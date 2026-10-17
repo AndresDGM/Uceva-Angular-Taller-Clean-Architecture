@@ -71,7 +71,55 @@
  *           type: number
  *           example: 4500
  */
-export {};
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Report:
+ *       type: object
+ *       description: Representa un reporte generado por el sistema
+ *       required:
+ *         - id
+ *         - title
+ *         - description
+ *         - type
+ *         - status
+ *         - generatedAt
+ *         - totalRecords
+ *       properties:
+ *         id:
+ *           type: number
+ *           example: 1
+ *         title:
+ *           type: string
+ *           example: Resumen de usuarios
+ *         description:
+ *           type: string
+ *           example: Reporte con el resumen de usuarios registrados
+ *         type:
+ *           type: string
+ *           enum:
+ *             - Usuarios
+ *             - Productos
+ *             - Actividad
+ *             - Inventario
+ *           example: Usuarios
+ *         status:
+ *           type: string
+ *           enum:
+ *             - Generado
+ *             - Pendiente
+ *             - Error
+ *           example: Generado
+ *         generatedAt:
+ *           type: string
+ *           format: date-time
+ *           example: 2026-01-15T10:30:00.000Z
+ *         totalRecords:
+ *           type: number
+ *           example: 42
+ */
 
 /**
  * @openapi
@@ -102,8 +150,8 @@ export {};
  *         publisher: { type: string, example: Editorial Sudamericana }
  *         pages: { type: integer, example: 400 }
  *         description: { type: string, example: Una obra maestra de la literatura hispanoamericana }
- *         language: { type: string, example: Spanish }
- *         genre: { type: string, example: Fiction }
+ *         language: { type: string, example: Español }
+ *         genre: { type: string, example: Ficción }
  *         coverImageUrl: { type: string, format: uri, example: 'https://picsum.photos/seed/book-1/160/240' }
  *         pdfUrl: { type: string, format: uri, example: 'https://samplepdf.org/files/sample.pdf' }
  */
@@ -148,3 +196,4 @@ export {};
  *             - OVERDUE
  *           example: ACTIVE
  */
+export {};
