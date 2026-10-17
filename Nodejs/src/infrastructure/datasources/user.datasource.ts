@@ -1,4 +1,4 @@
-import { faker } from '@faker-js/faker';
+import { fakerES as faker } from '@faker-js/faker';
 import { User, UserEngineering } from "../../domain/models/user.model";
 
 

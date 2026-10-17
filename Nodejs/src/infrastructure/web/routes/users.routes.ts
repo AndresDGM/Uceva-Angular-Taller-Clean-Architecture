@@ -18,7 +18,7 @@ export class UsersRoutes {
      *     summary: Obtener listado de usuarios
      *     description: Retorna una lista de usuarios generados dinámicamente según la cantidad solicitada.
      *     tags:
-     *       - Users
+     *       - Usuarios
      *     parameters:
      *       - in: path
      *         name: countUsers

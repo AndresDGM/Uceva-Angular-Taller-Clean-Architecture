@@ -6,43 +6,54 @@ src/main/java/uceva/cleanarchitecture
 ├── domain
 │   ├── entity/
 │   │   ├── User.java
-│   │   └── Product.java
-│   │   ├── Book.java
-│   │   ├── Genre.java
-│   │   └── Language.java
+│   │   ├── Product.java
+│   │   └── Report.java
 │   │
 │   └── repository/
 │       ├── UserRepository.java
-│       └── ProductRepository.java
+│       ├── ProductRepository.java
+│       └── ReportRepository.java
 │
 ├── application
 │   └── usecase/
 │       ├── GetAllUsersUseCase.java
 │       ├── GetAllProductsUseCase.java
-│       └── GetAllBooksUseCase.java
+│       └── GetAllReportsUseCase.java
 │
 ├── infrastructure
 │   ├── controller/
 │   │   ├── UserController.java
 │   │   ├── ProductController.java
-│   │   └── BookController.java
+│   │   └── ReportController.java
 │   │
 │   ├── repository/
 │   │   ├── UserRepositoryImpl.java
 │   │   ├── ProductRepositoryImpl.java
-│   │   └── BookRepositoryImpl.java
+│   │   └── ReportRepositoryImpl.java
 │   │
 │   └── datasource/
 │       ├── UserDatasource.java
 │       ├── ProductDatasource.java
-│       └── BookDatasource.java
+│       └── ReportDatasource.java
 │
 ├── config
-│   ├── AppConfig.java
-│   └── SwaggerConfig.java
+│   └── AppConfig.java
 │
 └── UcevaSprinBootTallerCleanArchitectureApplication.java
 ```
+
+## Módulo de reportes
+
+El modelo `Report` mantiene el mismo contrato JSON que el backend Node.js y
+contiene los atributos que se muestran en la tabla:
+
+- `id`: identificador numérico.
+- `title`: título del reporte.
+- `description`: descripción breve.
+- `type`: `Usuarios`, `Productos`, `Actividad` o `Inventario`.
+- `status`: `Generado`, `Pendiente` o `Error`.
+- `generatedAt`: fecha de generación en formato ISO 8601.
+- `totalRecords`: cantidad de registros incluidos.
 
 
 ## Paso 1 - Crear Entidades
@@ -50,7 +61,8 @@ src/main/java/uceva/cleanarchitecture
 ```
 src/main/java/uceva/cleanarchitecture/domain/entity
 ├── User.java
-└── Product.java
+├── Product.java
+└── Report.java
 ```
 
 ## Paso 2 - Crear Repositorios
@@ -58,7 +70,8 @@ src/main/java/uceva/cleanarchitecture/domain/entity
 ```
 src/main/java/uceva/cleanarchitecture/domain/repositories/
 ├── UserRepository.java
-└── ProductRepository.java
+├── ProductRepository.java
+└── ReportRepository.java
 ```
 
 ## Paso 3 - Crear Casos de Uso
@@ -66,7 +79,8 @@ src/main/java/uceva/cleanarchitecture/domain/repositories/
 ```
 src/main/java/uceva/cleanarchitecture/application/usecase/
 ├── GetAllUsersUseCase.java
-└── GetAllProductsUseCase.java
+├── GetAllProductsUseCase.java
+└── GetAllReportsUseCase.java
 ```
 
 ## Paso 4 - Crear Controllers
@@ -75,7 +89,8 @@ src/main/java/uceva/cleanarchitecture/application/usecase/
 ```
 src/main/java/uceva/cleanarchitecture/infrastructure/controllers/
 ├── UserController.java
-└── ProductController.java
+├── ProductController.java
+└── ReportController.java
 ```
 
 ## Paso 5 - Crear Repositorios Implementadores
@@ -83,7 +98,8 @@ src/main/java/uceva/cleanarchitecture/infrastructure/controllers/
 ```
 src/main/java/uceva/cleanarchitecture/infrastructure/repository/
 ├── UserRepositoryImpl.java
-└── ProductRepositoryImpl.java
+├── ProductRepositoryImpl.java
+└── ReportRepositoryImpl.java
 ```
 
 ## Paso 6 - Agregar la Inyección de Dependencias
@@ -97,26 +113,9 @@ src/main/java/uceva/cleanarchitecture/config/
 
 ## Urls Consumo
 ```
-http://localhost:8080/api/swagger-ui/index.html
+http://localhost:3000/api/swagger-ui/index.html
 http://localhost:8080/api/users/{countUsers}
 http://localhost:8080/api/products/{countProducts}
+http://localhost:8080/api/reports/{countReports}
 http://localhost:8080/api/books/{countBooks}
-```
-
-El endpoint `books` devuelve los atributos `id`, `title`, `authorId`, `isbn`,
-`publicationYear`, `publisher`, `pages`, `description`, `language`, `genre`,
-`coverImageUrl` y `pdfUrl`, manteniendo el contrato consumido por Angular y Node.js.
-
-## Ejecución
-
-Requiere Java 25. Desde este directorio:
-
-```bash
-JAVA_HOME=/usr/lib/jvm/java-25-openjdk bash gradlew bootRun
-```
-
-Para ejecutar las pruebas:
-
-```bash
-JAVA_HOME=/usr/lib/jvm/java-25-openjdk bash gradlew test
 ```

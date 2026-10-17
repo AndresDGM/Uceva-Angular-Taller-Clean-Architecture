@@ -27,7 +27,7 @@ describe('App', () => {
 
   it('debería definir la configuración del navbar correctamente', () => {
     expect(component.navbarConfig).toEqual({
-      title: 'Angular Client',
+      title: 'Cliente Angular',
       iconConfig: {
         icon: 'bootstrap',
         size: 2
@@ -35,6 +35,7 @@ describe('App', () => {
       navLinks: [
         { text: 'Usuarios', url: '/users' },
         { text: 'Productos', url: '/products' },
+        { text: 'Reportes', url: '/reports' },
         { text: 'Libros', url: '/books' }
       ]
     });

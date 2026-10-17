@@ -3,15 +3,16 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { environment } from '../../../../environments/environment';
 import { Product } from '../../domain/models/product.model';
+import { Report } from '../../domain/models/report.model';
 import { User } from '../../domain/models/user.model';
-import { Book } from '../../domain/models/book.model';
 import { DataService } from './data.service';
 import { USERS_MOCK } from '../../../mocks/users.mocks';
 import { PRODUCTS_MOCK } from '../../../mocks/products.mocks';
+import { REPORTS_MOCK } from '../../../mocks/reports.mocks';
 import { BOOKS_MOCK } from '../../../mocks/books.mocks';
 
-jest.mock('@faker-js/faker', () => ({
-  faker: {
+jest.mock('@faker-js/faker', () => {
+  const fakerMock = {
     commerce: {
       productName: jest.fn(() => 'Producto Test'),
       price: jest.fn(() => '10.00'),
@@ -24,6 +25,14 @@ jest.mock('@faker-js/faker', () => ({
     number: {
       int: jest.fn(() => 30),
     },
+    lorem: {
+      words: jest.fn(() => 'Libro de prueba'),
+      sentence: jest.fn(() => 'Reporte de prueba'),
+    },
+    date: {
+      between: jest.fn(() => new Date('2020-01-01T00:00:00.000Z')),
+      recent: jest.fn(() => new Date('2026-01-15T10:30:00.000Z')),
+    },
     internet: {
       email: jest.fn(() => 'test@mail.com'),
     },
@@ -31,18 +40,13 @@ jest.mock('@faker-js/faker', () => ({
       arrayElement: jest.fn((arr) => arr[0]),
       enumValue: jest.fn((enumObject) => Object.values(enumObject)[0]),
     },
-    lorem: {
-      words: jest.fn(() => 'Libro de prueba'),
-      sentence: jest.fn(() => 'Descripción del libro de prueba.'),
-    },
-    date: {
-      between: jest.fn(() => new Date('2020-01-01T00:00:00.000Z')),
-    },
     company: {
       name: jest.fn(() => 'Editorial de prueba'),
     },
-  },
-}));
+  };
+
+  return { faker: fakerMock, fakerES: fakerMock };
+});
 
 describe('DataService', () => {
   let service: DataService;
@@ -50,6 +54,8 @@ describe('DataService', () => {
   
   const countUsers = 5;
   const countProducts = 5;
+  const countReports = 5;
+  const countBooks = 5;
   const pathUrlNode = `${environment.baseUrlNode}/api`;
   const pathUrlSpringBoot = `${environment.baseUrlSpringBoot}/api`;
 
@@ -87,9 +93,16 @@ describe('DataService', () => {
     });
   });
 
+  it('debe devolver el listado de reportes locale', (done) => {
+    service.getAllReportsLocal(countReports).subscribe((reports: Report[]) => {
+      expect(reports.length).toEqual(countReports);
+      done();
+    });
+  });
+
   it('debe devolver el listado de libros local', (done) => {
-    service.getAllBooksLocal(countProducts).subscribe((books: Book[]) => {
-      expect(books.length).toEqual(countProducts);
+    service.getAllBooksLocal(countBooks).subscribe((books: Book[]) => {
+      expect(books.length).toEqual(countBooks);
       done();
     });
   });
@@ -112,11 +125,20 @@ describe('DataService', () => {
     req.flush(PRODUCTS_MOCK);
   });
 
+  it('debe obtener reportes desde Node por HTTP', () => {
+    service.getAllReportsNode(countReports).subscribe((reports) => {
+      expect(reports).toEqual(REPORTS_MOCK);
+    });
+    const req = httpMock.expectOne(`${pathUrlNode}/reports/${countReports}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(REPORTS_MOCK);
+  });
+
   it('debe obtener libros desde Node por HTTP', () => {
-    service.getAllBooksNode(countProducts).subscribe((books) => {
+    service.getAllBooksNode(countBooks).subscribe((books) => {
       expect(books).toEqual(BOOKS_MOCK);
     });
-    const req = httpMock.expectOne(`${pathUrlNode}/books/${countProducts}`);
+    const req = httpMock.expectOne(`${pathUrlNode}/books/${countBooks}`);
     expect(req.request.method).toBe('GET');
     req.flush(BOOKS_MOCK);
   });
@@ -139,11 +161,20 @@ describe('DataService', () => {
     req.flush(PRODUCTS_MOCK);
   });
 
+  it('debe obtener reportes desde SpringBoot por HTTP', () => {
+    service.getAllReportsSpringBoot(countReports).subscribe((reports) => {
+      expect(reports).toEqual(REPORTS_MOCK);
+    });
+    const req = httpMock.expectOne(`${pathUrlSpringBoot}/reports/${countReports}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(REPORTS_MOCK);
+  });
+
   it('debe obtener libros desde SpringBoot por HTTP', () => {
-    service.getAllBooksSpringBoot(countProducts).subscribe((books) => {
+    service.getAllBooksSpringBoot(countBooks).subscribe((books) => {
       expect(books).toEqual(BOOKS_MOCK);
     });
-    const req = httpMock.expectOne(`${pathUrlSpringBoot}/books/${countProducts}`);
+    const req = httpMock.expectOne(`${pathUrlSpringBoot}/books/${countBooks}`);
     expect(req.request.method).toBe('GET');
     req.flush(BOOKS_MOCK);
   });
