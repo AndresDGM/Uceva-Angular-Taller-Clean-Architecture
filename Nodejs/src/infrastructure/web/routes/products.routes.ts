@@ -18,7 +18,7 @@ export class ProductsRoutes {
      *     summary: Obtener listado de productos
      *     description: Retorna una lista de productos generados dinámicamente según la cantidad solicitada.
      *     tags:
-     *       - Products
+     *       - Productos
      *     parameters:
      *       - in: path
      *         name: countProducts

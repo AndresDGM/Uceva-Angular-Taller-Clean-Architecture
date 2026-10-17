@@ -14,7 +14,15 @@
  * this.http.get(`${environment.baseUrl}/users`);
  * ```
  */
-export const environment = {
+import { Backend } from '../app/core/infrastructure/providers/backend.provider';
+
+export const environment: {
+  backend: Backend;
+  baseUrlNode: string;
+  baseUrlSpringBoot: string;
+} = {
+  /** Implementación activa: local, node o springboot. */
+  backend: 'springboot',
   /**
    * URL base del backend en NodeJS de la aplicación.
    *

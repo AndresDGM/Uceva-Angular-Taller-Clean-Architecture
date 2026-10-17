@@ -1,10 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { faker } from '@faker-js/faker';
+import { fakerES as faker } from '@faker-js/faker';
 import { Observable, of } from "rxjs";
 import { environment } from "../../../../environments/environment";
 import { Product, ProductCategory } from "../../domain/models/product.model";
+import { Report, ReportStatus, ReportType } from "../../domain/models/report.model";
 import { User, UserEngineering } from "../../domain/models/user.model";
+import { Book, Genre, Language } from "../../domain/models/book.model";
+import { Loan, LoanStatus } from "../../domain/models/loan.model";
 
 /**
  * Servicio de infraestructura para obtención de datos.
@@ -110,6 +113,107 @@ export class DataService {
     }
 
     /**
+     * Obtiene el listado de reportes desde datos locales simulados.
+     *
+     * @param countReports - Cantidad de reportes a solicitar
+     * @returns Observable que emite un arreglo de {@link Report}
+     */
+    getAllReportsLocal(countReports: number): Observable<Report[]> {
+        const reports: Report[] = [];
+        const reportTypes: ReportType[] = [
+            'Usuarios',
+            'Productos',
+            'Actividad',
+            'Inventario',
+        ];
+        const reportStatuses: ReportStatus[] = [
+            'Generado',
+            'Pendiente',
+            'Error',
+        ];
+        const reportTemplates = [
+            {
+                title: 'Resumen de usuarios',
+                description: 'Usuarios registrados en el sistema',
+            },
+            {
+                title: 'Inventario actual',
+                description: 'Existencias disponibles por producto',
+            },
+            {
+                title: 'Actividad reciente',
+                description: 'Actividades realizadas por los usuarios',
+            },
+            {
+                title: 'Productos por categoría',
+                description: 'Cantidad de productos agrupados por categoría',
+            },
+            {
+                title: 'Reporte de ventas',
+                description: 'Ventas registradas durante el periodo seleccionado',
+            },
+            {
+                title: 'Estado del inventario',
+                description: 'Productos disponibles y agotados',
+            },
+            {
+                title: 'Nuevos usuarios',
+                description: 'Usuarios creados recientemente',
+            },
+            {
+                title: 'Movimientos del sistema',
+                description: 'Operaciones registradas en la plataforma',
+            },
+            {
+                title: 'Resumen de productos',
+                description: 'Catálogo de productos disponible',
+            },
+            {
+                title: 'Reporte general',
+                description: 'Consolidado general de información del sistema',
+            },
+        ];
+
+        for (let i = 1; i <= countReports; i++) {
+            const template = reportTemplates[(i - 1) % reportTemplates.length];
+            reports.push({
+                id: i,
+                title: template.title,
+                description: template.description,
+                type: faker.helpers.arrayElement(reportTypes),
+                status: faker.helpers.arrayElement(reportStatuses),
+                generatedAt: faker.date.recent({ days: 30 }).toISOString(),
+                totalRecords: faker.number.int({ min: 1, max: 500 }),
+            });
+        }
+
+        return of(reports);
+    }
+
+    getAllBooksLocal(countBooks: number): Observable<Book[]> {
+        const books: Book[] = [];
+        for (let i = 1; i <= countBooks; i++) {
+            books.push({
+                id: i,
+                title: faker.lorem.words({ min: 2, max: 5 }),
+                authorId: faker.number.int({ min: 1, max: 100 }),
+                isbn: faker.commerce.isbn(),
+                publicationYear: faker.date
+                    .between({ from: '1950-01-01T00:00:00.000Z', to: '2025-12-31T00:00:00.000Z' })
+                    .toISOString(),
+                publisher: faker.company.name(),
+                pages: faker.number.int({ min: 80, max: 900 }),
+                description: faker.lorem.sentence({ min: 8, max: 18 }),
+                language: faker.helpers.enumValue(Language),
+                genre: faker.helpers.enumValue(Genre),
+                coverImageUrl: `https://picsum.photos/seed/book-${i}/160/240`,
+                pdfUrl: 'https://samplepdf.org/files/sample.pdf',
+            });
+        }
+        return of(books);
+    }
+
+    /**
      * Obtiene el listado de usuarios desde el backend Node.js.
      *
      * @remarks
@@ -152,6 +256,15 @@ export class DataService {
      */
     getAllProductsNode(countProducts: number): Observable<Product[]> {
         return this.httpClient.get<Product[]>(`${this.nodeUrl}/products/${countProducts}`);
+    }
+
+    /** Obtiene reportes desde el backend Node.js. */
+    getAllReportsNode(countReports: number): Observable<Report[]> {
+        return this.httpClient.get<Report[]>(`${this.nodeUrl}/reports/${countReports}`);
+    }
+
+    getAllBooksNode(countBooks: number): Observable<Book[]> {
+        return this.httpClient.get<Book[]>(`${this.nodeUrl}/books/${countBooks}`);
     }
 
     /**
@@ -199,4 +312,75 @@ export class DataService {
         return this.httpClient.get<Product[]>(`${this.springBootUrl}/products/${countProducts}`);
     }
 
+    /** Obtiene reportes desde el backend Spring Boot. */
+    getAllReportsSpringBoot(countReports: number): Observable<Report[]> {
+        return this.httpClient.get<Report[]>(`${this.springBootUrl}/reports/${countReports}`);
+    }
+
+    getAllBooksSpringBoot(countBooks: number): Observable<Book[]> {
+        return this.httpClient.get<Book[]>(`${this.springBootUrl}/books/${countBooks}`);
+    }
+
+    /**
+     * Obtiene el listado de préstamos desde datos locales simulados.
+     *
+     * @param countLoans - Cantidad de préstamos a solicitar
+     * @returns Observable que emite un arreglo de {@link Loan}
+     */
+    getAllLoansLocal(countLoans: number): Observable<Loan[]> {
+        const loans: Loan[] = [];
+        const loanStatuses: LoanStatus[] = [
+            'ACTIVE',
+            'RETURNED',
+            'OVERDUE',
+        ];
+
+        for(let i = 1; i <= countLoans; i++) {
+            const loanDate = new Date();
+            loanDate.setDate(loanDate.getDate() - faker.number.int({ min: 0, max: 30 }));
+            const returnDate = new Date(loanDate);
+            returnDate.setDate(returnDate.getDate() + faker.number.int({ min: 7, max: 30 }));
+
+            loans.push({
+                id: i,
+                bookId: faker.number.int({ min: 1, max: 100 }),
+                userId: faker.number.int({ min: 1, max: 100 }),
+                loanDate: loanDate.toISOString().split('T')[0],
+                returnDate: returnDate.toISOString().split('T')[0],
+                status: faker.helpers.arrayElement(loanStatuses),
+            });
+        }
+
+        return of(loans);
+    }
+
+    /**
+     * Obtiene el listado de préstamos desde el backend Node.js.
+     *
+     * @remarks
+     * Realiza una petición HTTP GET al endpoint
+     * `/loans/{countLoans}`.
+     *
+     * @param countLoans - Cantidad de préstamos a solicitar
+     * @returns Observable que emite un arreglo de {@link Loan}
+     */
+    getAllLoansNode(countLoans: number): Observable<Loan[]> {
+        return this.httpClient.get<Loan[]>(`${this.nodeUrl}/loans/${countLoans}`);
+    }
+
+    /**
+     * Obtiene el listado de préstamos desde el backend Spring Boot.
+     *
+     * @remarks
+     * Realiza una petición HTTP GET al endpoint
+     * `/loans/{countLoans}`.
+     *
+     * @param countLoans - Cantidad de préstamos a solicitar
+     * @returns Observable que emite un arreglo de {@link Loan}
+     */
+    getAllLoansSpringBoot(countLoans: number): Observable<Loan[]> {
+        return this.httpClient.get<Loan[]>(`${this.springBootUrl}/loans/${countLoans}`);
+    }
+
 }
+

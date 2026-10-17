@@ -71,4 +71,129 @@
  *           type: number
  *           example: 4500
  */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Report:
+ *       type: object
+ *       description: Representa un reporte generado por el sistema
+ *       required:
+ *         - id
+ *         - title
+ *         - description
+ *         - type
+ *         - status
+ *         - generatedAt
+ *         - totalRecords
+ *       properties:
+ *         id:
+ *           type: number
+ *           example: 1
+ *         title:
+ *           type: string
+ *           example: Resumen de usuarios
+ *         description:
+ *           type: string
+ *           example: Reporte con el resumen de usuarios registrados
+ *         type:
+ *           type: string
+ *           enum:
+ *             - Usuarios
+ *             - Productos
+ *             - Actividad
+ *             - Inventario
+ *           example: Usuarios
+ *         status:
+ *           type: string
+ *           enum:
+ *             - Generado
+ *             - Pendiente
+ *             - Error
+ *           example: Generado
+ *         generatedAt:
+ *           type: string
+ *           format: date-time
+ *           example: 2026-01-15T10:30:00.000Z
+ *         totalRecords:
+ *           type: number
+ *           example: 42
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Book:
+ *       type: object
+ *       description: Representa un libro del catálogo
+ *       required:
+ *         - id
+ *         - title
+ *         - authorId
+ *         - isbn
+ *         - publicationYear
+ *         - publisher
+ *         - pages
+ *         - description
+ *         - language
+ *         - genre
+ *         - coverImageUrl
+ *         - pdfUrl
+ *       properties:
+ *         id: { type: integer, example: 1 }
+ *         title: { type: string, example: Cien años de soledad }
+ *         authorId: { type: integer, example: 1 }
+ *         isbn: { type: string, example: 978-3-16-148410-0 }
+ *         publicationYear: { type: string, format: date-time, example: '1967-05-30T00:00:00.000Z' }
+ *         publisher: { type: string, example: Editorial Sudamericana }
+ *         pages: { type: integer, example: 400 }
+ *         description: { type: string, example: Una obra maestra de la literatura hispanoamericana }
+ *         language: { type: string, example: Español }
+ *         genre: { type: string, example: Ficción }
+ *         coverImageUrl: { type: string, format: uri, example: 'https://picsum.photos/seed/book-1/160/240' }
+ *         pdfUrl: { type: string, format: uri, example: 'https://samplepdf.org/files/sample.pdf' }
+ */
+
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Loan:
+ *       type: object
+ *       description: Representa un préstamo del sistema
+ *       required:
+ *         - id
+ *         - bookId
+ *         - userId
+ *         - loanDate
+ *         - returnDate
+ *         - status
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 1
+ *         bookId:
+ *           type: integer
+ *           example: 1
+ *         userId:
+ *           type: integer
+ *           example: 1
+ *         loanDate:
+ *           type: string
+ *           format: date
+ *           example: '2025-01-01'
+ *         returnDate:
+ *           type: string
+ *           format: date
+ *           example: '2025-01-15'
+ *         status:
+ *           type: string
+ *           enum:
+ *             - ACTIVE
+ *             - RETURNED
+ *             - OVERDUE
+ *           example: ACTIVE
+ */
 export {};
