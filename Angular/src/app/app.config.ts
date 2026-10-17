@@ -13,9 +13,37 @@ import { ProductSpringBootRepositoryImpl } from './core/infrastructure/repositor
 import { UserLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/user-local.repository.impl';
 import { ProductLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/product-local.repository.impl';
 import { BookRepository } from './core/domain/repositories/book.repository';
+import { LoanRepository } from './core/domain/repositories/loan.repository';
 import { BookLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/book-local.repository.impl';
+import { LoanLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/loan-local.repository.impl';
 import { BookNodeRepositoryImpl } from './core/infrastructure/repositories/node-implementation/book-node.repository.impl';
+import { LoanNodeRepositoryImpl } from './core/infrastructure/repositories/node-implementation/loan-node.repository.impl';
 import { BookSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/book-springboot.repository.impl';
+import { LoanSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/loan-springboot.repository.impl';
+import { environment } from '../environments/environment';
+
+const repositoryImplementations = {
+  local: {
+    user: UserLocalRepositoryImpl,
+    product: ProductLocalRepositoryImpl,
+    book: BookLocalRepositoryImpl,
+    loan: LoanLocalRepositoryImpl,
+  },
+  node: {
+    user: UserNodeRepositoryImpl,
+    product: ProductNodeRepositoryImpl,
+    book: BookNodeRepositoryImpl,
+    loan: LoanNodeRepositoryImpl,
+  },
+  springboot: {
+    user: UserSpringBootRepositoryImpl,
+    product: ProductSpringBootRepositoryImpl,
+    book: BookSpringBootRepositoryImpl,
+    loan: LoanSpringBootRepositoryImpl,
+  },
+} as const;
+
+const selectedRepositories = repositoryImplementations[environment.backend];
 import { ReportLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/report-local.repository.impl';
 import { ReportNodeRepositoryImpl } from './core/infrastructure/repositories/node-implementation/report-node.repository.impl';
 import { ReportSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/report-springboot.repository.impl';
@@ -52,6 +80,10 @@ export const appConfig: ApplicationConfig = {
    */
   providers: [
 
+    { provide: UserRepository, useClass: selectedRepositories.user },
+    { provide: ProductRepository, useClass: selectedRepositories.product },
+    { provide: BookRepository, useClass: selectedRepositories.book },
+    { provide: LoanRepository, useClass: selectedRepositories.loan },
     { provide: LOCALE_ID, useValue: 'es-CO' },
 
     UserLocalRepositoryImpl,

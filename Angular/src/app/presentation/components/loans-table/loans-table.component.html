@@ -1,0 +1,30 @@
+<div class="table-responsive">
+  <table class="table table-striped table-bordered align-middle">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Libro ID</th>
+        <th scope="col">Usuario ID</th>
+        <th scope="col">Fecha Préstamo</th>
+        <th scope="col">Fecha Devolución</th>
+        <th scope="col">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (loan of loans; track loan.id) {
+        <tr>
+          <th scope="row">{{ loan.id }}</th>
+          <td>{{ loan.bookId }}</td>
+          <td>{{ loan.userId }}</td>
+          <td>{{ loan.loanDate }}</td>
+          <td>{{ loan.returnDate }}</td>
+          <td>
+            <span class="badge" [ngClass]="getBadgeClass(loan.status)">
+              {{ loan.status }}
+            </span>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

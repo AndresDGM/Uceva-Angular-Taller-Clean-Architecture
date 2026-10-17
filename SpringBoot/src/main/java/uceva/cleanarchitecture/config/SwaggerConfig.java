@@ -14,6 +14,6 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Uceva Clean Architecture API")
                         .version("1.0")
-                        .description("API de usuarios, productos y libros"));
+                        .description("API de usuarios, productos, libros y préstamos"));
     }
 }

@@ -7,6 +7,7 @@ import { Product, ProductCategory } from "../../domain/models/product.model";
 import { Report, ReportStatus, ReportType } from "../../domain/models/report.model";
 import { User, UserEngineering } from "../../domain/models/user.model";
 import { Book, Genre, Language } from "../../domain/models/book.model";
+import { Loan, LoanStatus } from "../../domain/models/loan.model";
 
 /**
  * Servicio de infraestructura para obtención de datos.
@@ -320,4 +321,66 @@ export class DataService {
         return this.httpClient.get<Book[]>(`${this.springBootUrl}/books/${countBooks}`);
     }
 
+    /**
+     * Obtiene el listado de préstamos desde datos locales simulados.
+     *
+     * @param countLoans - Cantidad de préstamos a solicitar
+     * @returns Observable que emite un arreglo de {@link Loan}
+     */
+    getAllLoansLocal(countLoans: number): Observable<Loan[]> {
+        const loans: Loan[] = [];
+        const loanStatuses: LoanStatus[] = [
+            'ACTIVE',
+            'RETURNED',
+            'OVERDUE',
+        ];
+
+        for(let i = 1; i <= countLoans; i++) {
+            const loanDate = new Date();
+            loanDate.setDate(loanDate.getDate() - faker.number.int({ min: 0, max: 30 }));
+            const returnDate = new Date(loanDate);
+            returnDate.setDate(returnDate.getDate() + faker.number.int({ min: 7, max: 30 }));
+
+            loans.push({
+                id: i,
+                bookId: faker.number.int({ min: 1, max: 100 }),
+                userId: faker.number.int({ min: 1, max: 100 }),
+                loanDate: loanDate.toISOString().split('T')[0],
+                returnDate: returnDate.toISOString().split('T')[0],
+                status: faker.helpers.arrayElement(loanStatuses),
+            });
+        }
+
+        return of(loans);
+    }
+
+    /**
+     * Obtiene el listado de préstamos desde el backend Node.js.
+     *
+     * @remarks
+     * Realiza una petición HTTP GET al endpoint
+     * `/loans/{countLoans}`.
+     *
+     * @param countLoans - Cantidad de préstamos a solicitar
+     * @returns Observable que emite un arreglo de {@link Loan}
+     */
+    getAllLoansNode(countLoans: number): Observable<Loan[]> {
+        return this.httpClient.get<Loan[]>(`${this.nodeUrl}/loans/${countLoans}`);
+    }
+
+    /**
+     * Obtiene el listado de préstamos desde el backend Spring Boot.
+     *
+     * @remarks
+     * Realiza una petición HTTP GET al endpoint
+     * `/loans/{countLoans}`.
+     *
+     * @param countLoans - Cantidad de préstamos a solicitar
+     * @returns Observable que emite un arreglo de {@link Loan}
+     */
+    getAllLoansSpringBoot(countLoans: number): Observable<Loan[]> {
+        return this.httpClient.get<Loan[]>(`${this.springBootUrl}/loans/${countLoans}`);
+    }
+
 }
+
