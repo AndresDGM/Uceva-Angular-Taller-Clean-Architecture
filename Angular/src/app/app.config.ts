@@ -10,6 +10,31 @@ import { UserSpringBootRepositoryImpl } from './core/infrastructure/repositories
 import { ProductSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/product-springboot.repository.impl';
 import { UserLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/user-local.repository.impl';
 import { ProductLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/product-local.repository.impl';
+import { BookRepository } from './core/domain/repositories/book.repository';
+import { BookLocalRepositoryImpl } from './core/infrastructure/repositories/local-implementation/book-local.repository.impl';
+import { BookNodeRepositoryImpl } from './core/infrastructure/repositories/node-implementation/book-node.repository.impl';
+import { BookSpringBootRepositoryImpl } from './core/infrastructure/repositories/springboot-implementation/book-springboot.repository.impl';
+import { environment } from '../environments/environment';
+
+const repositoryImplementations = {
+  local: {
+    user: UserLocalRepositoryImpl,
+    product: ProductLocalRepositoryImpl,
+    book: BookLocalRepositoryImpl,
+  },
+  node: {
+    user: UserNodeRepositoryImpl,
+    product: ProductNodeRepositoryImpl,
+    book: BookNodeRepositoryImpl,
+  },
+  springboot: {
+    user: UserSpringBootRepositoryImpl,
+    product: ProductSpringBootRepositoryImpl,
+    book: BookSpringBootRepositoryImpl,
+  },
+} as const;
+
+const selectedRepositories = repositoryImplementations[environment.backend];
 
 /**
  * Configuración principal de la aplicación Angular.
@@ -38,17 +63,9 @@ export const appConfig: ApplicationConfig = {
    */
   providers: [
 
-    //Local Providers
-    { provide: UserRepository, useClass: UserLocalRepositoryImpl },
-    { provide: ProductRepository, useClass: ProductLocalRepositoryImpl },
-    
-    //Node Providers
-    //{ provide: UserRepository, useClass: UserNodeRepositoryImpl },
-    //{ provide: ProductRepository, useClass: ProductNodeRepositoryImpl },
-
-    //SpringBoot Providers
-    //{ provide: UserRepository, useClass: UserSpringBootRepositoryImpl },
-    //{ provide: ProductRepository, useClass: ProductSpringBootRepositoryImpl },
+    { provide: UserRepository, useClass: selectedRepositories.user },
+    { provide: ProductRepository, useClass: selectedRepositories.product },
+    { provide: BookRepository, useClass: selectedRepositories.book },
 
     /**
      * Proveedor de listeners globales de errores del navegador.

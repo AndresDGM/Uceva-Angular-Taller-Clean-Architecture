@@ -14,7 +14,13 @@
  * this.http.get(`${environment.baseUrl}/users`);
  * ```
  */
-export const environment = {
+export type Backend = 'local' | 'node' | 'springboot';
+
+export const environment: {
+  baseUrlNode: string;
+  baseUrlSpringBoot: string;
+  backend: Backend;
+} = {
   /**
    * URL base del backend en NodeJS de la aplicación.
    *
@@ -33,4 +39,5 @@ export const environment = {
    *
    */
   baseUrlSpringBoot: 'http://localhost:8080',
+  backend: 'springboot',
 };
