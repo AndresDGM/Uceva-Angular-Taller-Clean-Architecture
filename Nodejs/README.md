@@ -57,9 +57,10 @@ reportes:
 ## Paso 1 - Crear Modelos
 
 ```
-src//domain/models/
+src/domain/models/
 ├── user.model.ts
-└── product.model.ts
+├── product.model.ts
+└── report.model.ts
 ```
 
 ## Paso 2 - Crear Repositorios
@@ -67,7 +68,8 @@ src//domain/models/
 ```
 src/domain/repositories/
 ├── user.repository.ts
-└── product.repository.ts
+├── product.repository.ts
+└── report.repository.ts
 ```
 
 ## Paso 3 - Crear Casos de Uso
@@ -75,7 +77,8 @@ src/domain/repositories/
 ```
 src/application/usecases/
 ├── get-all-users.usecase.ts
-└── get-all-products.usecase.ts
+├── get-all-products.usecase.ts
+└── get-all-reports.usecase.ts
 ```
 
 ## Paso 4 - Crear Datasources
@@ -83,7 +86,8 @@ src/application/usecases/
 ```
 src/infrastructure/datasource/
 ├── user.datasource.ts
-└── product.datasource.ts
+├── product.datasource.ts
+└── report.datasource.ts
 ```
 
 ## Paso 5 - Crear Repositorios Implementadores
@@ -91,7 +95,8 @@ src/infrastructure/datasource/
 ```
 src/infrastructure/repositories/
 ├── user.repository.impl.ts
-└── product.repository.impl.ts
+├── product.repository.impl.ts
+└── report.repository.impl.ts
 ```
 
 ## Paso 6 - Implementar Web (Express – Framework Externo)
